@@ -1,17 +1,24 @@
+from datetime import datetime
+
+from django.core import validators as V
 from django.db import models
 
-
-
 from core.models import BaseModel
+
+from apps.auto_salons.models import AutoSalonModel
+from apps.cars.choices.body_type import BodyTypeChoices
 
 
 class CarModel(BaseModel):
     class Meta:
         db_table = 'cars'
+        ordering = ('-id',)
 
-    brand = models.CharField(max_length=255)
-    model = models.CharField(max_length=255)
-    year = models.IntegerField()
-    color = models.CharField(max_length=255)
-    price = models.IntegerField()
-    state = models.CharField(max_length=255)
+    brand = models.CharField(max_length=10, validators=(V.MinLengthValidator(2),))
+    model = models.CharField(max_length=10, validators=(V.MinLengthValidator(2),))
+    year = models.IntegerField(validators=(V.MinValueValidator(1990), V.MaxValueValidator(datetime.now().year)))
+    color = models.CharField(max_length=10, validators=(V.MinLengthValidator(2),))
+    price = models.IntegerField(validators=(V.MinValueValidator(100), V.MaxValueValidator(1_000_000_000)))
+    state = models.CharField(max_length=10, validators=(V.MinLengthValidator(2),))
+    body_type = models.CharField(max_length=10, choices=BodyTypeChoices.choices)
+    auto_salon = models.ForeignKey(AutoSalonModel, on_delete=models.SET_NULL,null=True, blank=True, related_name='cars')

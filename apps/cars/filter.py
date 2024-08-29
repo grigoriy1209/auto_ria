@@ -1,70 +1,43 @@
-from django.db.models import QuerySet
-from django.http import QueryDict
-from rest_framework.exceptions import ValidationError
+from apps.cars.choices.body_type import BodyTypeChoices
 
-from apps.cars.models import CarModel
-from apps.cars.serializers import CarSerializer
+from django_filters import rest_framework as filters
 
 
-def car_filter(query: QueryDict) -> QuerySet:
-    qs = CarModel.objects.all()
+class CarFilter(filters.FilterSet):
+    # year
+    year_gt = filters.NumberFilter(field_name='year', lookup_expr='gt')
+    year_range = filters.RangeFilter('year')
+    year_in = filters.BaseInFilter(field_name='year', lookup_expr='in')
+    year_lt = filters.NumberFilter(field_name='year', lookup_expr='lt')
+    year_lte = filters.NumberFilter(field_name='year', lookup_expr='lte')
+    year_gte = filters.NumberFilter(field_name='year', lookup_expr='gte')
+    # brand
+    brand_startswith = filters.CharFilter(field_name='brand', lookup_expr='startswith')
+    brand_endswith = filters.CharFilter(field_name='brand', lookup_expr='endswith')
+    # model
+    model_startswith = filters.CharFilter(field_name='model', lookup_expr='startswith')
+    model_endswith = filters.CharFilter(field_name='model', lookup_expr='endswith')
+    # price
+    price_gt = filters.NumberFilter(field_name='price', lookup_expr='gt')
+    price_range = filters.RangeFilter(field_name='price', lookup_expr='range')
+    price_in = filters.BaseInFilter(field_name='price', lookup_expr='in')
+    price_lt = filters.NumberFilter(field_name='price', lookup_expr='lt')
+    price_lte = filters.NumberFilter(field_name='price', lookup_expr='lte')
+    price_gte = filters.NumberFilter(field_name='price', lookup_expr='gte')
+    # color
+    color = filters.CharFilter(field_name='color', lookup_expr='exact')
+    # state
+    state = filters.CharFilter(field_name='state', lookup_expr='exact')
+    state_in = filters.BaseInFilter(field_name='state', lookup_expr='in')
 
-    available_filters = {
-        'price_gt', 'price_lt', 'price_lte', 'price_gte',
-        'year_lte', 'year_gte', 'year_gt', 'year',
-        'brand_start', 'brand_contains', 'brand_end',
-        'model', 'color', 'state', 'create_at', 'order'
-    }
-
-    for key, value in query.items():
-        match key:
-            # price
-            case 'price_gt':
-                qs = qs.filter(price__gt=value)
-            case 'price_lt':
-                qs = qs.filter(price__lt=value)
-            case 'price_lte':
-                qs = qs.filter(price__lte=value)
-            case 'price_gte':
-                qs = qs.filter(price__gte=value)
-            # year
-            case 'year_lte':
-                qs = qs.filter(year__lte=value)
-            case 'year_gte':
-                qs = qs.filter(year__gte=value)
-            case 'year_gt':
-                qs = qs.filter(year__gt=value)
-            case 'year':
-                qs = qs.filter(year=value)
-            # brand
-            case 'brand_start':
-                qs = qs.filter(brand__istartswith=value)
-            case 'brand_contains':
-                qs = qs.filter(brand__icontains=value)
-            case 'brand_end':
-                qs = qs.filter(brand__iendswith=value)
-            # model
-            case 'model':
-                qs = qs.filter(model=value)
-            # color
-            case 'color':
-                qs = qs.filter(color=value)
-            # state
-            case 'state':
-                qs = qs.filter(state=value)
-                # create_car
-            case 'create_at':
-                qs = qs.filter(create_at__year=value)
-
-            case 'order':
-                fields = list(CarSerializer.Meta.fields)
-                fields.extend([[f'-{field}' for field in fields]])
-
-                if value not in fields:
-                    raise ValidationError({"details": f'Please choice order from {", ".join(fields)}'})
-
-                qs = qs.order_by(value)
-
-            case _:
-                raise ValidationError(f'Filter {key} not supported.Available filters are: {", ".join(available_filters)}')
-    return qs
+    body = filters.ChoiceFilter(field_name='body_type', choices=BodyTypeChoices.choices)
+    order = filters.OrderingFilter(
+        fields=(
+            'brand',
+            'price',
+            'year',
+            'state',
+            'color',
+            'model',
+            'body_type'
+        ))
