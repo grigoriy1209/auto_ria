@@ -27,6 +27,9 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = os.environ.get('DEBUG') == 'True'
 
 ALLOWED_HOSTS = []
+AUTH_USER_MODEL = 'users.UserModel'   # модель для авторизації
+
+
 
 # Application definition
 
@@ -35,9 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.staticfiles',
     'django_filters',
+    'rest_framework_simplejwt',
 
     #my apps
     'core',
+    'apps.auth',
+    'apps.users',
     'apps.cars',
     'apps.auto_salons',
 ]

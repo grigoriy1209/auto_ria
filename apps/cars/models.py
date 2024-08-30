@@ -7,6 +7,7 @@ from core.models import BaseModel
 
 from apps.auto_salons.models import AutoSalonModel
 from apps.cars.choices.body_type import BodyTypeChoices
+from apps.cars.managers import CarManager, CarQuerySet
 
 
 class CarModel(BaseModel):
@@ -21,4 +22,6 @@ class CarModel(BaseModel):
     price = models.IntegerField(validators=(V.MinValueValidator(100), V.MaxValueValidator(1_000_000_000)))
     state = models.CharField(max_length=10, validators=(V.MinLengthValidator(2),))
     body_type = models.CharField(max_length=10, choices=BodyTypeChoices.choices)
-    auto_salon = models.ForeignKey(AutoSalonModel, on_delete=models.SET_NULL,null=True, blank=True, related_name='cars')
+    auto_salon = models.ForeignKey(AutoSalonModel, on_delete=models.SET_NULL, null=True, blank=True, related_name='cars')
+
+    objects = CarManager

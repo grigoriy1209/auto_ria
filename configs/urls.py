@@ -21,6 +21,8 @@ from apps.auto_salons.views import AutoSalonAddCarView, AutoSalonListCreateView
 from apps.cars.views import CarListCreateView, CarRetrieveUpdateDestroyView
 
 urlpatterns = [
-    path('cars',include('apps.cars.urls')),
+    path('auth', include('apps.auth.urls')),
+    path('users', include('apps.users.urls')),
+    path('cars', include('apps.cars.urls')),
     path('auto_salons', include('apps.auto_salons.urls')),
 ]
