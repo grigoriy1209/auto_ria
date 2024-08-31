@@ -7,5 +7,14 @@ class BodyTypeChoices(models.TextChoices):
     Coupe = 'Coupe',
     Wagon = 'Wagon',
     Jeep = 'Jeep',
+    Roadster = 'Roadster',
+    Convertible = 'Convertible',
+    Sport_Car = 'Sport Car',
+    Crossover = 'Crossover',
+    Pickup = 'Pickup',
+    Minivan = 'Minivan',
+    Van = 'Van',
+    Limousine = 'Limousine',
+
 
 

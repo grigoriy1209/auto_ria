@@ -1,11 +1,22 @@
 from django.contrib.auth import get_user_model
 from django.db.transaction import atomic
 
-from rest_framework import serializers
+from rest_framework import permissions, serializers
+from rest_framework.generics import ListCreateAPIView
+from rest_framework.permissions import IsAuthenticated
 
 from apps.users.models import ProfileModel
 
 UserModel = get_user_model()
+
+
+class RoleSerializer(serializers.Serializer):
+    role = serializers.ChoiceField(choices=UserModel.ROLE_CHOICES)
+
+
+class RoleListCreateView(ListCreateAPIView):
+    serializer_class = RoleSerializer
+    permission_classes = [IsAuthenticated]
 
 
 class ProfileSerializer(serializers.ModelSerializer):

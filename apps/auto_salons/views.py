@@ -1,6 +1,9 @@
 from rest_framework import status
 from rest_framework.generics import GenericAPIView, ListCreateAPIView
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+
+from core.permission.is_admin_or_write_only import IsAdminOrWriteOnly
 
 from apps.auto_salons.models import AutoSalonModel
 from apps.auto_salons.serializers import AutoSalonSerializer
@@ -10,10 +13,12 @@ from apps.cars.serializers import CarSerializer
 class AutoSalonListCreateView(ListCreateAPIView):
     serializer_class = AutoSalonSerializer
     queryset = AutoSalonModel.objects.all()
+    permission_classes = (IsAuthenticated,)
 
 
 class AutoSalonAddCarView(GenericAPIView):
     queryset = AutoSalonModel.objects.all()
+    permission_classes = (IsAuthenticated,)
 
     def post(self, *args, **kwargs):
         auto_salon = self.get_object()

@@ -1,3 +1,11 @@
-from django.shortcuts import render
+from rest_framework.generics import GenericAPIView
+from rest_framework.permissions import AllowAny
 
-# Create your views here.
+
+class ActiveUserView(GenericAPIView):
+    permission_classes = [AllowAny,]
+
+    # def post(self, *args, **kwargs):
+    #     token = kwargs.get('token')
+    #     try:
+    #         user =J
