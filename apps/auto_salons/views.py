@@ -3,8 +3,6 @@ from rest_framework.generics import GenericAPIView, ListCreateAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from core.permission.is_admin_or_write_only import IsAdminOrWriteOnly
-
 from apps.auto_salons.models import AutoSalonModel
 from apps.auto_salons.serializers import AutoSalonSerializer
 from apps.cars.serializers import CarSerializer

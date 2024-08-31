@@ -9,7 +9,7 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': [
-        'core.permission.is_super_user_permission.IsSuperUser',
+        'core.permission.is_super_user_permission.IsSuperAdmin',
 
     ]
 
