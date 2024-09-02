@@ -12,5 +12,4 @@ REST_FRAMEWORK = {
         'core.permission.is_super_user_permission.IsSuperAdmin',
 
     ]
-
 }

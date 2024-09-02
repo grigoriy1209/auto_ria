@@ -6,7 +6,6 @@ class RegexEnum(Enum):
         r'^[A-Z][a-zA-Z\d]{1,24}$',
         [
             'First letter uppercase min 2 max 25 characters',
-            'If your brand_models is missing, contact the administrator'
         ]
     )
 
@@ -32,8 +31,6 @@ class RegexEnum(Enum):
         'First letter uppercase min 2, max 20',
     )
 
-    def __init__(self, pattern:str, msg:str | list[str]):
+    def __init__(self, pattern: str, msg: str | list[str]):
         self.pattern = pattern
         self.msg = msg
-
-

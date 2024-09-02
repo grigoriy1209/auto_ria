@@ -12,7 +12,6 @@ class ActionTokenEnum(Enum):
         timedelta(minutes=13),
     )
 
-    def __init__(self, token_type, life_time):
+    def __init__(self, token_type, lifetime):
         self.token_type = token_type
-        self.life_time = life_time
-       
+        self.lifetime = lifetime

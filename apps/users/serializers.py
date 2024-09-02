@@ -5,6 +5,8 @@ from rest_framework import permissions, serializers
 from rest_framework.generics import ListCreateAPIView
 from rest_framework.permissions import IsAuthenticated
 
+from core.services.email_service import EmailService
+
 from apps.users.models import ProfileModel
 
 UserModel = get_user_model()
@@ -55,4 +57,5 @@ class UserSerializer(serializers.ModelSerializer):
         profile = validated_data.pop('profile')
         user = UserModel.objects.create_user(**validated_data)
         ProfileModel.objects.create(**profile, user=user)
+        EmailService.register_email(user)
         return user
