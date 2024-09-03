@@ -9,7 +9,7 @@ from apps.users.serializers import UserSerializer
 
 
 class ActiveUserView(GenericAPIView):
-    permission_classes = [AllowAny,]
+    permission_classes = [AllowAny, ]
 
     def patch(self, *args, **kwargs):
         token = kwargs['token']
