@@ -27,6 +27,6 @@ class EmailService:
         url = f'http://localhost:3000/activate/{token}'
         cls.__send_email(
             user.email,
-            'test.html',
+            'register.html',
             {'name': user.profile.name, 'url': url},
             subject='Register')
