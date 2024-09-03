@@ -57,5 +57,8 @@ class UserSerializer(serializers.ModelSerializer):
         profile = validated_data.pop('profile')
         user = UserModel.objects.create_user(**validated_data)
         ProfileModel.objects.create(**profile, user=user)
-        EmailService.register_email(user)
+        try:
+            EmailService.register_email(user)
+        except Exception as e:
+            print(f"Failed to send registration email: {str(e)}")
         return user

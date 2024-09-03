@@ -21,7 +21,9 @@ class UserModel(AbstractBaseUser, PermissionsMixin, BaseModel):
     ]
 
     email = models.EmailField(unique=True)
-    password = models.CharField(_('password'), max_length=128, validators=(V.RegexValidator(*RegexEnum.PASSWORD.value),))
+    password = models.CharField(_('password'), max_length=128,
+                                # validators=(V.RegexValidator(*RegexEnum.PASSWORD.value),
+                                            )
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='buyer')
